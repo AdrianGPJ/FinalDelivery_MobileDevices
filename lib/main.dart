@@ -55,8 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           FutureBuilder(
-            future:
-                _searchQuery.isNotEmpty ? loadTenorGifs(_searchQuery) : null,
+            future: _searchQuery.isNotEmpty
+                ? loadTenorGifs(_searchQuery, 10)
+                : null,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator();
@@ -67,26 +68,30 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Text("No data available");
               }
 
-              final gif = snapshot.data as Gif;
+              final List<Gif> gifs = snapshot.data as List<Gif>;
 
-              return Card(
-                child: Column(
-                  children: [
-                    Container(
-                      height: 200,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(gif.url),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(gif.name),
-                    )
-                  ],
-                ),
+              return Column(
+                children: gifs
+                    .map((gif) => Card(
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(gif.url),
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(gif.name),
+                              )
+                            ],
+                          ),
+                        ))
+                    .toList(),
               );
             },
           ),

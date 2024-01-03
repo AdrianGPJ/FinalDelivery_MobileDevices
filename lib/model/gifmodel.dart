@@ -11,7 +11,7 @@ class Gif {
         url = json["media_formats"]["nanogif"]["url"];
 }
 
-Future<Gif> loadTenorGifs(String searchTerm, int limit) async {
+Future<List<Gif>> loadTenorGifs(String searchTerm, int limit) async {
   final apiKey =
       "AIzaSyAX3gTNScKbmNYx9Ao_vddYohER0Xn9nIs"; // Replace with your Tenor API key
   final clientKey = "my_test_app"; // Replace with your Tenor client key
@@ -23,7 +23,8 @@ Future<Gif> loadTenorGifs(String searchTerm, int limit) async {
   );
 
   final json = jsonDecode(response.body);
-  final gif = Gif.fromJson(json["results"][0]);
+  final List<dynamic> results = json["results"];
+  final List<Gif> gifs = results.map((result) => Gif.fromJson(result)).toList();
 
-  return gif;
+  return gifs;
 }
