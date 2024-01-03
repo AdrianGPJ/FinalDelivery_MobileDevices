@@ -11,11 +11,11 @@ class Gif {
         url = json["media_formats"]["nanogif"]["url"];
 }
 
-Future<Gif> loadTenorGifs(String searchTerm) async {
+Future<Gif> loadTenorGifs(String searchTerm, int limit) async {
   final apiKey =
       "AIzaSyAX3gTNScKbmNYx9Ao_vddYohER0Xn9nIs"; // Replace with your Tenor API key
   final clientKey = "my_test_app"; // Replace with your Tenor client key
-  final limit = 1;
+  final limit = 10;
 
   final response = await http.get(
     Uri.parse(

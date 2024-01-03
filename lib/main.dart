@@ -1,18 +1,10 @@
 import 'dart:convert';
+import 'package:FinalDelivery_MobileDevices/model/gifmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'model/gifmodel.dart';
-
 void main() {
   runApp(MyApp());
-}
-
-class Gif {
-  final String name;
-  final String url;
-
-  Gif({required this.name, required this.url});
 }
 
 class MyApp extends StatelessWidget {
