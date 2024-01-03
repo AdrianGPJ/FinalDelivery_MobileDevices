@@ -30,72 +30,74 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Api example bar'),
+        title: Text('Discover Gifs'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                labelText: 'Search',
-                prefixIcon: Icon(Icons.search),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    _searchController.clear();
-                    _updateSearchQuery("");
-                  },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  labelText: 'Search',
+                  prefixIcon: Icon(Icons.search),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () {
+                      _searchController.clear();
+                      _updateSearchQuery("");
+                    },
+                  ),
                 ),
+                onChanged: (value) {
+                  _updateSearchQuery(value);
+                },
               ),
-              onChanged: (value) {
-                _updateSearchQuery(value);
-              },
             ),
-          ),
-          FutureBuilder(
-            future: _searchQuery.isNotEmpty
-                ? loadTenorGifs(_searchQuery, 10)
-                : null,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                print(snapshot.error);
-                return Text("Error: ${snapshot.error}");
-              } else if (!snapshot.hasData) {
-                return Text("No data available");
-              }
+            FutureBuilder(
+              future: _searchQuery.isNotEmpty
+                  ? loadTenorGifs(_searchQuery, 10)
+                  : null,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return Text("Error: ${snapshot.error}");
+                } else if (!snapshot.hasData) {
+                  return Text("No data available");
+                }
 
-              final List<Gif> gifs = snapshot.data as List<Gif>;
+                final List<Gif> gifs = snapshot.data as List<Gif>;
 
-              return Column(
-                children: gifs
-                    .map((gif) => Card(
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 200,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(gif.url),
-                                    fit: BoxFit.contain,
+                return Column(
+                  children: gifs
+                      .map((gif) => Card(
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(gif.url),
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(gif.name),
-                              )
-                            ],
-                          ),
-                        ))
-                    .toList(),
-              );
-            },
-          ),
-        ],
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(gif.name),
+                                )
+                              ],
+                            ),
+                          ))
+                      .toList(),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
