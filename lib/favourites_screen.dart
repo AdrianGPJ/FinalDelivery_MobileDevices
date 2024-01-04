@@ -20,7 +20,7 @@ class FavoritesScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.grey.shade400, Colors.white],
+            colors: [Colors.orange.shade400, Colors.yellow.shade300],
           ),
         ),
         child: GridView.builder(
