@@ -1,16 +1,14 @@
-# delivery2
-
-A new Flutter project.
+# Final Delivery 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a GIF app that lets you search for gifs, look at them one by one and save them as favorites.
 
-A few resources to get you started if this is your first Flutter project:
+To search you just have to type on the search bar the concept you want for your GIF and the 20 most used will appear,
+if you want to see the gif with bigger proportions you can click on it and it will show you the giff, 
+there you can click on the star to add the GIF into favorites.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+To see the GIFs saved as favorites you just have to click on the star icon and it will redirect you to the favorites screen
+where you can see them.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Developed by Adrián Ponce
