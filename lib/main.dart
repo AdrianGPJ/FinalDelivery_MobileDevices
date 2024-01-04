@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:FinalDelivery_MobileDevices/favourites_screen.dart';
 import 'package:FinalDelivery_MobileDevices/model/gifmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -26,6 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
   int _currentIndex = 0;
+  List<Gif> _favoriteGifs = [];
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
+            if (_currentIndex == 1) {
+              _showFavorites(context);
+            }
           });
         },
       ),
@@ -140,6 +145,15 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       MaterialPageRoute(
         builder: (context) => LargeGifScreen(gif: gif),
+      ),
+    );
+  }
+
+  void _showFavorites(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FavoritesScreen(favoriteGifs: _favoriteGifs),
       ),
     );
   }
@@ -170,6 +184,11 @@ class _LargeGifScreenState extends State<LargeGifScreen> {
             onPressed: () {
               setState(() {
                 _isFavorite = !_isFavorite;
+                if (_isFavorite) {
+                  _addToFavorites();
+                } else {
+                  _removeFromFavorites();
+                }
               });
             },
           ),
@@ -184,5 +203,13 @@ class _LargeGifScreenState extends State<LargeGifScreen> {
         ],
       ),
     );
+  }
+
+  void _addToFavorites() {
+    // Add the current GIF to the list of favorites
+  }
+
+  void _removeFromFavorites() {
+    // Remove the current GIF from the list of favorites
   }
 }
