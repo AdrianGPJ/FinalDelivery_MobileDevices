@@ -25,12 +25,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Discover Gifs'),
+        title: Text('Gif App'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -98,6 +99,25 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: 'Favourites',
+          ),
+        ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+            // Handle navigation to different screens based on the index
+          });
+        },
       ),
     );
   }
