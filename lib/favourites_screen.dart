@@ -18,8 +18,34 @@ class FavoritesScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(favoriteGifs[index].name),
-            // You can customize the appearance of each favorite GIF item
+            subtitle: Image.network(
+              favoriteGifs[index].url,
+              height: 100,
+              width: 100,
+              fit: BoxFit.contain,
+            ),
           );
+        },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        backgroundColor: Colors.blue,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: 'Favorites',
+          ),
+        ],
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pop(context);
+          }
         },
       ),
     );
