@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gif App'),
+        title: Text('Api example bar'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -74,23 +74,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 return Column(
                   children: gifs
-                      .map((gif) => Card(
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(gif.url),
-                                      fit: BoxFit.contain,
+                      .asMap()
+                      .entries
+                      .map((entry) => GestureDetector(
+                            onTap: () => _showLargeGif(context, entry.value),
+                            child: Card(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(entry.value.url),
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Text(gif.name),
-                                )
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text(entry.value.name),
+                                  )
+                                ],
+                              ),
                             ),
                           ))
                       .toList(),
@@ -102,6 +107,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        backgroundColor: Colors.blue,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
@@ -109,13 +117,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
-            label: 'Favourites',
+            label: 'Favorites',
           ),
         ],
         onTap: (index) {
           setState(() {
             _currentIndex = index;
-            // Handle navigation to different screens based on the index
           });
         },
       ),
@@ -126,5 +133,56 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _searchQuery = query;
     });
+  }
+
+  void _showLargeGif(BuildContext context, Gif gif) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LargeGifScreen(gif: gif),
+      ),
+    );
+  }
+}
+
+class LargeGifScreen extends StatefulWidget {
+  final Gif gif;
+
+  LargeGifScreen({required this.gif});
+
+  @override
+  _LargeGifScreenState createState() => _LargeGifScreenState();
+}
+
+class _LargeGifScreenState extends State<LargeGifScreen> {
+  bool _isFavorite = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.gif.name),
+      ),
+      body: Column(
+        children: [
+          IconButton(
+            icon: _isFavorite ? Icon(Icons.star) : Icon(Icons.star_border),
+            onPressed: () {
+              setState(() {
+                _isFavorite = !_isFavorite;
+              });
+            },
+          ),
+          Expanded(
+            child: Center(
+              child: Image.network(
+                widget.gif.url,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
